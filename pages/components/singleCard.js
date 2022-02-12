@@ -8,7 +8,7 @@ export default function SingleCards({ card, handleChoice, flipped, disabled }) {
   return (
     <div className="card">
       <div className={flipped ? "flipped" : ""}>
-        <img src={card.src} className="front" alt={card.src} />
+        <img src={!!card && card.src} className="front" alt={card.src} />
 
         {/* <Image
           src={card.src}
