@@ -9,14 +9,9 @@ import {
   Flex,
   Box,
   VStack,
-  useToast,
-  Text,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import SingleCards from "./components/singleCard";
-import Link from "next/link";
-import ModalWinner from "./components/modalWinner";
-import Router from "next/router";
 
 const cardImages = [
   { src: "/Images/9b8eeec164f189f7de0a9b2ff78e556e.png", matched: false },
@@ -31,13 +26,11 @@ const cardImages = [
 ];
 
 export default function Play() {
-  let toast = useToast();
   const [cards, setCards] = useState([]);
   const [turns, setTurns] = useState(0);
   const [choiceOne, setChoiceOne] = useState(null);
   const [choiceTwo, setChoiceTwo] = useState(null);
   const [disabled, setDisabled] = useState(false);
-  const [callModal, setCallModal] = useState(false);
 
   // shuffle and duplicate cards, and randomize cards
   const shuffleCards = () => {
@@ -83,73 +76,34 @@ export default function Play() {
     setDisabled(false);
   };
 
-  // call modal when game won
-  if (
-    cards.length > 0 &&
-    cards.filter((card) => card.matched === true).length === 12
-  ) {
-    toast({
-      position: "bottom-left",
-      render: () => (
-        <Box color="white" p={3} bg="red.500">
-          Congratulations
-        </Box>
-      ),
-    });
-    setTimeout(() => Router.push("/listGamers"), 2000);
-  }
   return (
     <VStack
       spacing={2}
       align="center"
       h="calc(100vh - 70px)"
       bgGradient="linear(to-l, blue.400, yellow.400)"
-      justify={`center`}
-      px="10px"
     >
-      <Flex align="center" justify={`center`} w="50%">
+      <Flex align="center" justify={`center`} py="20px">
         {cards.length > 0 ? (
           <Button
             textAlign={`center`}
+            color="red.500"
             onClick={shuffleCards}
             size="lg"
             boxShadow="xl"
           >
-            <Text bgGradient="linear(to-r, blue.400, yellow.400)" bgClip="text">
-              {" "}
-              Jouer
-            </Text>
+            Jouer
           </Button>
         ) : (
-          <Flex
-            bgColor="gray.50"
-            borderRadius="20px"
-            boxShadow="dark-lg"
-            w="100%"
-            h="400px"
-            align="center"
-            justify={`center`}
+          <Button
+            textAlign={`center`}
+            color="red.500"
+            onClick={shuffleCards}
+            size="lg"
+            boxShadow="xl"
           >
-            <Box onClick={shuffleCards} cursor="pointer">
-              <Heading
-                textAlign={`center`}
-                color="red.500"
-                fontSize="80px"
-                textTransform={`uppercase`}
-                bgGradient="linear(to-r, blue.400, yellow.400)"
-                _hover={{
-                  bgGradient: "linear(to-l, blue.400, yellow.400)",
-                  transitionDuration: "0.5s",
-                }}
-                bgClip="text"
-              >
-                Camel Match
-              </Heading>
-              <Text textAlign={`center`} fontWeight="800" fontSize={25}>
-                Start game
-              </Text>
-            </Box>
-          </Flex>
+            Mélanger les cartes
+          </Button>
         )}
       </Flex>
 
@@ -157,7 +111,7 @@ export default function Play() {
       {cards.length > 0 && (
         <Grid
           templateColumns="repeat(3, 1fr)"
-          gap={5}
+          gap={3}
           align="center"
           bgColor="blue.500"
           p="20px"
